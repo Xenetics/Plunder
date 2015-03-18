@@ -29,6 +29,7 @@ public class LevelManager : MonoBehaviour
         public int height;
         public int tileCount;
         public GameObject[] floor;
+        public GameObject[] border;
         public GameObject[] layout;
     }
 
@@ -58,21 +59,14 @@ public class LevelManager : MonoBehaviour
         newRoom.width = difficulty;
         newRoom.height = difficulty;
         newRoom.tileCount = newRoom.width * newRoom.height;
-        newRoom.floor = BuildFloor(newRoom.tileCount);
-        foreach(GameObject floor in newRoom.floor)
-        {
-            floor.transform.parent = newRoom.RoomContainer.transform;
-        }
-        newRoom.layout = BuildLayout(newRoom.tileCount);
-        foreach(GameObject item in newRoom.layout)
-        {
-            item.transform.parent = newRoom.RoomContainer.transform;
-        }
+        newRoom.floor = BuildFloor(newRoom.tileCount, newRoom.RoomContainer);
+        newRoom.border = BuildBorder(newRoom.tileCount, newRoom.RoomContainer);
+        // add layout
 
         return newRoom;
     }
 
-    private GameObject[] BuildFloor(int tileCount)
+    private GameObject[] BuildFloor(int tileCount, GameObject container)
     {
         GameObject[] floor = new GameObject[tileCount];
 
@@ -83,19 +77,20 @@ public class LevelManager : MonoBehaviour
         {
             floor[i] = AddItem('F');
             floor[i].transform.position = spawn;
+            floor[i].transform.parent = container.transform;
             spawn = IncrementSpawn(spawn, tileCountSquared);
         }
         return floor;
     }
 
-    private GameObject[] BuildLayout(int tileCount)
+    private GameObject[] BuildBorder(int tileCount, GameObject container)
     {
-        GameObject[] layout = new GameObject[tileCount];
+        GameObject[] border = new GameObject[tileCount];
 
         float tileCountSquared = Mathf.Sqrt(tileCount);
         Vector3 spawn = new Vector3(-tileCountSquared * 0.5f, terrainLevel, tileCountSquared * 0.5f);
 
-        for (int i = 0; i <= tileCount; i++) // adds walls
+        for (int i = 0; i <= tileCount - 1; i++) // adds walls
         {
             bool addWall = false;
 
@@ -118,15 +113,22 @@ public class LevelManager : MonoBehaviour
             
             if (addWall)
             {
-                layout[i] = AddItem('W');
-                layout[i].transform.position = spawn;
+                border[i] = AddItem('W');
+                border[i].transform.position = spawn;
+                border[i].transform.parent = container.transform;
             }
             spawn = IncrementSpawn(spawn, tileCountSquared);
         }
 
-        return layout;
+        return border;
     }
 
+    private GameObject[] BuildLayout(int tileCount, GameObject container)
+    {
+        GameObject[] layout = new GameObject[tileCount];
+
+        return layout;
+    }
 
     private Vector3 IncrementSpawn(Vector3 oldSpawn, float tileCountSquared)
     {
@@ -144,29 +146,6 @@ public class LevelManager : MonoBehaviour
 
         return newSpawn;
     }
-
-    /*
-    public void BuildLevel(Room room)
-    {
-        GameObject levelContainer = new GameObject();
-        levelContainer.name = "levelContainer";
-        levelContainer.transform.position = Vector3.zero;
-
-        Vector2 startPoint = new Vector2(0, 0);
-        Vector2 currentSpawn = new Vector2(startPoint.x, startPoint.y);
-
-        for(int i = 0; i < challenges[challenge].tileCount ; i++)
-        {
-            if (challenges[challenge].layout[i] != 'e')
-            {
-                GameObject item = AddItem(challenges[challenge].layout[i]);
-                item.transform.position = currentSpawn;
-                item.transform.parent = levelContainer.transform;
-            }
-            currentSpawn = incrementSpawn(challenge, startPoint, currentSpawn);
-        }
-    }
-    */
 
     private GameObject AddItem(char item)
     {

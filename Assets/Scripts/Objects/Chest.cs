@@ -18,11 +18,8 @@ public class Chest : MonoBehaviour
     {
 	    if(opening)
         {
-            if(lid.transform.rotation.x > -30)
-            {
-                Quaternion openAngle = Quaternion.Euler(-30, lid.transform.rotation.y, lid.transform.rotation.z);
-                lid.transform.rotation = Quaternion.Slerp(lid.transform.rotation, openAngle, openSpeed * Time.deltaTime);
-            }
+            Quaternion openAngle = Quaternion.Euler(-30, lid.transform.localRotation.y, lid.transform.localRotation.z);
+            lid.transform.localRotation = Quaternion.Slerp(lid.transform.localRotation, openAngle, openSpeed * Time.deltaTime);
         }
 	}
 
