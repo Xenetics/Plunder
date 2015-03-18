@@ -5,9 +5,10 @@ public class Chest : MonoBehaviour
 {
     [SerializeField]
     private GameObject lid;
-    [SerializeField]
     private bool opening = false;
+    private float angle = -75.0f;
     private float openSpeed = 1.0f;
+
 
 	void Start () 
     {
@@ -18,7 +19,7 @@ public class Chest : MonoBehaviour
     {
 	    if(opening)
         {
-            Quaternion openAngle = Quaternion.Euler(-30, lid.transform.localRotation.y, lid.transform.localRotation.z);
+            Quaternion openAngle = Quaternion.Euler(angle, lid.transform.localRotation.y, lid.transform.localRotation.z);
             lid.transform.localRotation = Quaternion.Slerp(lid.transform.localRotation, openAngle, openSpeed * Time.deltaTime);
         }
 	}

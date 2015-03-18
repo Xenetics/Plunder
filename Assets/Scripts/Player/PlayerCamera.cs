@@ -15,11 +15,15 @@ public class PlayerCamera : MonoBehaviour
 
 	void Start () 
     {
-        entity = FindObjectOfType<PlayerControls>().gameObject;
+        
 	}
 	
 	void Update () 
     {
+        if(entity == null)
+        {
+            entity = FindObjectOfType<PlayerControls>().gameObject;
+        }
         this.gameObject.transform.LookAt(entity.transform);
 
         Vector3 camZ = new Vector3(0, 0, this.transform.position.z);

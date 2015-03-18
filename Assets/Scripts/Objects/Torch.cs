@@ -19,8 +19,8 @@ public class Torch : MonoBehaviour
         flickerTime -= Time.deltaTime;
         if(flickerTime <= 0)
         {
-            torchLight.intensity = Random.RandomRange(intensityMin, intensityMax);
-            flickerTime = Random.RandomRange(flickerMin, flickerMax);
+            torchLight.intensity = Random.Range(intensityMin, intensityMax);
+            flickerTime = Random.Range(flickerMin, flickerMax);
         }
 	}
 }

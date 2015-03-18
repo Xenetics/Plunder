@@ -18,7 +18,7 @@ public class PlayerControls : MonoBehaviour
 	
 	}
 	
-	void Update () 
+	void LateUpdate () 
     {
         vSpeed = Input.GetAxis("Vertical") * speed * Time.deltaTime;
         hSpeed = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
