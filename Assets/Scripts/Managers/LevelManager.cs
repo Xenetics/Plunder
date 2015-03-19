@@ -20,13 +20,13 @@ public class LevelManager : MonoBehaviour
             instance = this;
         }
 
-        rooms = new List<Room>();
-        BuildRooms(); // builds the room with no objects
+        
     }
 
     void Start()
     {
-        
+        rooms = new List<Room>();
+        BuildRooms(); // builds the room with no objects
     }
 
     bool filled = false;
