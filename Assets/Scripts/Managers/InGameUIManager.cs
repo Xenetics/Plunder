@@ -50,6 +50,16 @@ public class InGameUIManager : MonoBehaviour
     private Image InstructionImage;
     private bool tutDone = false;
 
+    [SerializeField]
+    private Text scoreText;
+    private int _Treasure = 0;
+
+    public void AddTreasure()
+    {
+        _Treasure++;
+        scoreText.text = "Treasure: " + _Treasure;
+    }
+
 	void Start () 
     {
 

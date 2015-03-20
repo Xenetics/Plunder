@@ -3,15 +3,26 @@ using System.Collections;
 
 public class PlayerCamera : MonoBehaviour 
 {
+    private static PlayerCamera instance = null;
+    public static PlayerCamera Instance { get { return instance; } }
+
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
     [SerializeField]
     private GameObject entity;
 
     private float transitionSpeed = 2.0f;
-
-    void Awake()
-    {
-        
-    }
 
 	void Start () 
     {
@@ -20,10 +31,6 @@ public class PlayerCamera : MonoBehaviour
 	
 	void Update () 
     {
-        if(entity == null)
-        {
-            entity = FindObjectOfType<PlayerControls>().gameObject;
-        }
         this.gameObject.transform.LookAt(entity.transform);
 
         Vector3 camZ = new Vector3(0, 0, this.transform.position.z);
@@ -48,4 +55,9 @@ public class PlayerCamera : MonoBehaviour
             }
         }
 	}
+
+    public void SetPlayer(GameObject player)
+    {
+        entity = player;
+    }
 }

@@ -5,10 +5,14 @@ public class Chest : MonoBehaviour
 {
     [SerializeField]
     private GameObject lid;
-    private bool opening = false;
-    private float angle = -75.0f;
-    private float openSpeed = 1.0f;
+    private bool state = false;
 
+    private bool opening = false;
+    private float angleOpen = -75.0f;
+    private float speed = 1.0f;
+
+    private bool closing = false;
+    private float angleClosed = 0;
 
 	void Start () 
     {
@@ -19,16 +23,54 @@ public class Chest : MonoBehaviour
     {
 	    if(opening)
         {
-            Quaternion openAngle = Quaternion.Euler(angle, lid.transform.localRotation.y, lid.transform.localRotation.z);
-            lid.transform.localRotation = Quaternion.Slerp(lid.transform.localRotation, openAngle, openSpeed * Time.deltaTime);
+            Quaternion openAngle = Quaternion.Euler(angleOpen, lid.transform.localRotation.y, lid.transform.localRotation.z);
+            lid.transform.localRotation = Quaternion.Slerp(lid.transform.localRotation, openAngle, speed * Time.deltaTime);
+        }
+        else if(closing)
+        {
+            Quaternion openAngle = Quaternion.Euler(angleClosed, lid.transform.localRotation.y, lid.transform.localRotation.z);
+            lid.transform.localRotation = Quaternion.Slerp(lid.transform.localRotation, openAngle, speed * Time.deltaTime);
         }
 	}
+
+    public void ToggleOpen()
+    {
+        if(state)
+        {
+            state = false;
+        }
+        else
+        {
+            state = true;
+        }
+
+        if(state)
+        {
+            opening = true;
+            closing = false;
+        }
+        else
+        {
+            closing = true;
+            opening = false;
+        }
+    }
+
+    public void ForceOpen()
+    {
+        opening = true;
+    }
 
     void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Player")
         {
+            InGameUIManager.Instance.AddTreasure();
             opening = true;
+            if(gameObject.name == "Chest_W")
+            {
+                LevelManager.Instance.Unlock();
+            }
         }
     }
 }
