@@ -14,6 +14,8 @@ public class Chest : MonoBehaviour
     private bool closing = false;
     private float angleClosed = 0;
 
+    private bool isOpen = false;
+
 	void Start () 
     {
 	    
@@ -65,8 +67,12 @@ public class Chest : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            InGameUIManager.Instance.AddTreasure();
+            isOpen = true;
             opening = true;
+            if (isOpen)
+            {
+                InGameUIManager.Instance.AddTreasure();
+            }
             if(gameObject.name == "Chest_W")
             {
                 LevelManager.Instance.Unlock();
