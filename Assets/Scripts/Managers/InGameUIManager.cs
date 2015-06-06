@@ -54,10 +54,23 @@ public class InGameUIManager : MonoBehaviour
     private Text scoreText;
     private int _Treasure = 0;
 
+    [SerializeField]
+    private Text doorText;
+
     public void AddTreasure()
     {
         _Treasure++;
         scoreText.text = "Treasure: " + _Treasure;
+    }
+
+    public void OpenDoor()
+    {
+        doorText.text = "Door: Open"; 
+    }
+
+    public void DoorReset()
+    {
+        doorText.text = "Door: Closed"; 
     }
 
 	void Start () 
